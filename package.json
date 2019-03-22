@@ -1,0 +1,22 @@
+{
+  "name": "chatapp",
+  "version": "1.0.0",
+  "description": "Chat app using sockets",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/robispo/nodechatapp.git"
+  },
+  "author": "Rabel Obispo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/robispo/nodechatapp/issues"
+  },
+  "homepage": "https://github.com/robispo/nodechatapp#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
