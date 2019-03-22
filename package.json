@@ -4,7 +4,8 @@
   "description": "Chat app using sockets",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "env-cmd ./config/dev.env nodemon src/app.js"
   },
   "repository": {
     "type": "git",
@@ -18,5 +19,8 @@
   "homepage": "https://github.com/robispo/nodechatapp#readme",
   "dependencies": {
     "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "env-cmd": "^8.0.2"
   }
 }
