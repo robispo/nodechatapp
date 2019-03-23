@@ -42,7 +42,7 @@ io.on('connection', socket => {
 
   socket.on('shareLocation', (data, callback) => {
     io.emit(
-      'Welcome',
+      'receiveLocation',
       `https://google.com/maps?q=${data.latitude},${data.longitude}`
     );
     callback();

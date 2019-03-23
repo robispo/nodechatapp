@@ -21,15 +21,10 @@
         </header>
         <main class="container">
             <div class="row">
+                <div id="divMessageContainer"></div>
+            </div>
+            <div class="row">
                 <form class="col s12" id="fChat">
-                    <div class="row">
-                        <div class="input-field col s3">
-                            <input name="userName" type="text"
-                                autocomplete="off"
-                                data-length="10">
-                            <label for="userName">User name</label>
-                        </div>
-                    </div>
                     <div class="row">
                         <div class="input-field col s12">
                             <textarea name="message" id="inpMessage"
@@ -49,7 +44,16 @@
             </div>
         </main>
 
-
+        <script id="sMessageTemplate" type="text/html">    
+            <div>
+                <p>{{message}}</p>
+            </div>
+        </script>
+        <script id="sMessageTemplateLocation" type="text/html">    
+            <div>
+                <p><a href="{{url}}" target="_blank">Location</a></p>
+            </div>
+        </script>
 
 
 

@@ -3,13 +3,29 @@ const eleForm = document.getElementById('fChat');
 const eleMessage = document.getElementById('inpMessage');
 const eleSubmit = document.getElementById('btnSubmit');
 const eleSendLocation = document.getElementById('btnShareLocation');
+const eleMessageContainer = document.getElementById('divMessageContainer');
+const eleMessageTemplate = document.getElementById('sMessageTemplate')
+  .innerHTML;
+const eleMessageTemplateLocation = document.getElementById(
+  'sMessageTemplateLocation'
+).innerHTML;
 
 socket.on('Welcome', greetings => {
   console.log(greetings);
 });
 
 socket.on('receiveMessage', message => {
-  console.log(message);
+  const html = Mustache.render(eleMessageTemplate, {
+    message: message.message
+  });
+  eleMessageContainer.insertAdjacentHTML('beforeend', html);
+});
+
+socket.on('receiveLocation', url => {
+  const html = Mustache.render(eleMessageTemplateLocation, {
+    url
+  });
+  eleMessageContainer.insertAdjacentHTML('beforeend', html);
 });
 
 eleForm.addEventListener('submit', e => {
@@ -22,7 +38,6 @@ eleForm.addEventListener('submit', e => {
   socket.emit(
     'sendMessage',
     {
-      userName: form.userName.value,
       message: form.message.value
     },
     e => {
