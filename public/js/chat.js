@@ -20,7 +20,13 @@ document.getElementById('fChat').addEventListener('submit', e => {
       userName: form.userName.value,
       message: form.message.value
     },
-    message => console.log('The message was delivered!', message)
+    e => {
+      if (e) {
+        console.log(e);
+        return;
+      }
+      console.log('The message was delivered!');
+    }
   );
 });
 
@@ -31,9 +37,13 @@ document.getElementById('btnShareLocation').addEventListener('click', e => {
   }
 
   navigator.geolocation.getCurrentPosition(position => {
-    socket.emit('shareLocation', {
-      latitude: position.coords.latitude,
-      longitude: position.coords.longitude
-    });
+    socket.emit(
+      'shareLocation',
+      {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      },
+      () => console.log('The message was delivered!')
+    );
   });
 });

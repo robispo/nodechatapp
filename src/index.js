@@ -3,10 +3,12 @@ const http = require('http');
 
 const express = require('express');
 const socketio = require('socket.io');
+const Filter = require('bad-words');
 
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
+const filter = new Filter();
 
 const publicPath = path.join(__dirname, '../public');
 
@@ -30,15 +32,20 @@ io.on('connection', socket => {
   socket.broadcast.emit('Welcome', 'A new user has joined!');
 
   socket.on('sendMessage', (data, callback) => {
+    if (filter.isProfane(data.message)) {
+      callback('Profanity is not allowed!');
+      return;
+    }
     io.emit('receiveMessage', data);
-    callback('Delivered!');
+    callback();
   });
 
-  socket.on('shareLocation', data => {
+  socket.on('shareLocation', (data, callback) => {
     io.emit(
       'Welcome',
       `https://google.com/maps?q=${data.latitude},${data.longitude}`
     );
+    callback();
   });
 
   socket.on('disconnect', () => {
