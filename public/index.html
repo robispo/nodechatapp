@@ -24,25 +24,28 @@
                 <form class="col s12" id="fChat">
                     <div class="row">
                         <div class="input-field col s3">
-                            <input name="userName" type="text" autocomplete="off"
+                            <input name="userName" type="text"
+                                autocomplete="off"
                                 data-length="10">
-                            <label for="input_text">User name</label>
+                            <label for="userName">User name</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <textarea name="message"
+                            <textarea name="message" id="inpMessage"
                                 class="materialize-textarea" data-length="120"></textarea>
-                            <label for="textarea2">Type</label>
+                            <label for="message">Type</label>
                         </div>
                     </div>
-                    <button class="btn waves-effect waves-light" type="submit" id="btnSubmit">Submit
+                    <button class="btn waves-effect waves-light" type="submit"
+                        id="btnSubmit">Submit
                         <i class="material-icons right">send</i>
                     </button>
                 </form>
-                <button class="btn waves-effect waves-light" type="button" id="btnShareLocation">Share Location
-                        <i class="material-icons right">send</i>
-                    </button>
+                <button class="btn waves-effect waves-light" type="button"
+                    id="btnShareLocation">Share Location
+                    <i class="material-icons right">send</i>
+                </button>
             </div>
         </main>
 
