@@ -1,12 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>ChatApp</title>
-</head>
-<body>
-    <h1>ChatApp</h1>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>ChatApp</title>
+
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+            rel="stylesheet">
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    </head>
+    <body>
+        <header>
+            <nav>
+                <div class="container">
+                    <a href="#" class="brand-logo center">Chat App</a>
+                </div>
+            </nav>
+        </header>
+        <main class="container">
+            <div class="row">
+                <form class="col s12" id="fChat">
+                    <div class="row">
+                        <div class="input-field col s3">
+                            <input name="userName" type="text" autocomplete="off"
+                                data-length="10">
+                            <label for="input_text">User name</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <textarea name="message"
+                                class="materialize-textarea" data-length="120"></textarea>
+                            <label for="textarea2">Type</label>
+                        </div>
+                    </div>
+                    <button class="btn waves-effect waves-light" type="submit" id="btnSubmit">Submit
+                        <i class="material-icons right">send</i>
+                    </button>
+                </form>
+                <button class="btn waves-effect waves-light" type="button" id="btnShareLocation">Share Location
+                        <i class="material-icons right">send</i>
+                    </button>
+            </div>
+        </main>
+
+
+
+
+
+
+
+
+        <!-- Compiled and minified JavaScript -->
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="js/chat.js"></script>
+    </body>
 </html>
