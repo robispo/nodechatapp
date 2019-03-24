@@ -19,7 +19,8 @@ socket.on('Welcome', greetings => {
 socket.on('receiveMessage', message => {
   const html = Mustache.render(eleMessageTemplate, {
     message: message.message,
-    createdAt: formatDate(message.createdAt)
+    createdAt: formatDate(message.createdAt),
+    userName: message.userName
   });
   eleMessageContainer.insertAdjacentHTML('beforeend', html);
 });
@@ -27,7 +28,8 @@ socket.on('receiveMessage', message => {
 socket.on('receiveLocation', data => {
   const html = Mustache.render(eleMessageTemplateLocation, {
     url: data.url,
-    createdAt: formatDate(data.createdAt)
+    createdAt: formatDate(data.createdAt),
+    userName: data.userName
   });
   eleMessageContainer.insertAdjacentHTML('beforeend', html);
 });

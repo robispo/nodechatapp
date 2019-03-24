@@ -1,0 +1,57 @@
+/* html,body{
+    height: 100%;
+} */
+/* .fullPage {
+  min-height: 93vh !important;
+} */
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+  display: flex;
+}
+.flex {
+  flex: 1;
+  display: flex;
+  margin: 0;
+}
+
+.pRelative {
+  position: relative;
+}
+.divbottom {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  margin: 0;
+}
+
+.divflexcolumn {
+  flex-direction: column;
+}
+
+.marginzero {
+  margin: 0;
+}
+
+#divMessageContainer {
+  overflow: scroll;
+}
+
+.marginleftzero{
+    margin-left: 0 !important;
+}
+
+.divscroll{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
