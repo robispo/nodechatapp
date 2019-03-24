@@ -10,20 +10,24 @@ const eleMessageTemplateLocation = document.getElementById(
   'sMessageTemplateLocation'
 ).innerHTML;
 
+const formatDate = timestamp => moment(timestamp).format('hh:mm a');
+
 socket.on('Welcome', greetings => {
   console.log(greetings);
 });
 
 socket.on('receiveMessage', message => {
   const html = Mustache.render(eleMessageTemplate, {
-    message: message.message
+    message: message.message,
+    createdAt: formatDate(message.createdAt)
   });
   eleMessageContainer.insertAdjacentHTML('beforeend', html);
 });
 
-socket.on('receiveLocation', url => {
+socket.on('receiveLocation', data => {
   const html = Mustache.render(eleMessageTemplateLocation, {
-    url
+    url: data.url,
+    createdAt: formatDate(data.createdAt)
   });
   eleMessageContainer.insertAdjacentHTML('beforeend', html);
 });
@@ -35,24 +39,18 @@ eleForm.addEventListener('submit', e => {
 
   const form = e.target.elements;
 
-  socket.emit(
-    'sendMessage',
-    {
-      message: form.message.value
-    },
-    e => {
-      eleForm.disabled = false;
-      eleSubmit.disabled = false;
-      eleMessage.value = '';
-      eleMessage.focus();
+  socket.emit('sendMessage', form.message.value, e => {
+    eleForm.disabled = false;
+    eleSubmit.disabled = false;
+    eleMessage.value = '';
+    eleMessage.focus();
 
-      if (e) {
-        console.log(e);
-        return;
-      }
-      console.log('The message was delivered!');
+    if (e) {
+      console.log(e);
+      return;
     }
-  );
+    console.log('The message was delivered!');
+  });
 });
 
 eleSendLocation.addEventListener('click', e => {
