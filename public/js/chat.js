@@ -1,14 +1,23 @@
 const socket = io();
+
+//Ellements
 const eleForm = document.getElementById('fChat');
 const eleMessage = document.getElementById('inpMessage');
 const eleSubmit = document.getElementById('btnSubmit');
 const eleSendLocation = document.getElementById('btnShareLocation');
+
+//Templates
 const eleMessageContainer = document.getElementById('divMessageContainer');
 const eleMessageTemplate = document.getElementById('sMessageTemplate')
   .innerHTML;
 const eleMessageTemplateLocation = document.getElementById(
   'sMessageTemplateLocation'
 ).innerHTML;
+
+//Options
+const { username, room } = Qs.parse(location.search, {
+  ignoreQueryPrefix: true
+});
 
 const formatDate = timestamp => moment(timestamp).format('hh:mm a');
 
@@ -77,3 +86,5 @@ eleSendLocation.addEventListener('click', e => {
     );
   });
 });
+
+socket.emit('join', { username, room });

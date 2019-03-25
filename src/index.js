@@ -27,10 +27,24 @@ app.all('*', (req, res) => {
 });
 
 io.on('connection', socket => {
+  let userName = '';
   console.log('New socket connection!');
-  socket.emit('Welcome', 'Welcome');
 
-  socket.broadcast.emit('Welcome', 'A new user has joined!');
+  socket.on('join', data => {
+    userName = data.username;
+
+    socket.join(data.room);
+    socket.emit(
+      'receiveMessage',
+      generateMessage(`${userName} Welcome!`, userName)
+    );
+    socket.broadcast
+      .to(data.room)
+      .emit(
+        'receiveMessage',
+        generateMessage(`${userName} has joined!`, userName)
+      );
+  });
 
   socket.on('sendMessage', (message, callback) => {
     if (filter.isProfane(message)) {
@@ -47,7 +61,10 @@ io.on('connection', socket => {
   });
 
   socket.on('disconnect', () => {
-    io.emit('receiveMessage', generateMessage('An user has left!'));
+    io.emit(
+      'receiveMessage',
+      generateMessage(`${userName} has left!`, userName)
+    );
   });
 
   //   socket.on('countPlus', plus => {

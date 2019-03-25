@@ -23,52 +23,31 @@
             </nav>
         </header>
         <main>
-            <div class="row flex">
-                <div class="row flex">
-                    <div class="col s3"></div>
-                    <div class="col s9 flex divflexcolumn">
-                        <div class="row flex divflexcolumn pRelative">
-                            <div class="divscroll" id="divMessageContainer"></div>
-                        </div>
-                        <div class="row marginzero">
-                            <div class="col s12">
-                                <div class="row marginzero">
-                                    <div class="col s10">
-                                        <form class="" id="fChat">
-                                            <div class="row">
-                                                <div class="input-field col
-                                                    s10">
-                                                    <textarea name="message"
-                                                        id="inpMessage"
-                                                        class="materialize-textarea"
-                                                        data-length="120"></textarea>
-                                                    <label for="message">Type</label>
-                                                </div>
-                                                <div class="col s2">
-                                                    <button class="btn
-                                                        waves-effect
-                                                        waves-light"
-                                                        type="submit"
-                                                        id="btnSubmit">Submit
-                                                        <i class="material-icons
-                                                            right">send</i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="col s2">
-                                        <button class="btn waves-effect
-                                            waves-light"
-                                            type="button"
-                                            id="btnShareLocation">Share Location
-                                            <i class="material-icons right">send</i>
-                                        </button>
-                                    </div>
-                                </div>
+            <div class="container">
+                <div class="row">
+                    <form class="col s6" action="/chat.html">
+
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <input id="username" name="username" required
+                                    autocomplete="off"
+                                    type="text" class="validate">
+                                <label for="username">User Name</label>
                             </div>
                         </div>
-                    </div>
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <input id="room" name="room" type="text"
+                                    required autocomplete="off"
+                                    class="validate">
+                                <label for="room">Room</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <button class="btn waves-effect waves-light"
+                                type="submit">Join </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </main>
@@ -81,46 +60,7 @@
                 </div>
             </div>
         </footer>
-
-
-
-        <script id="sMessageTemplate" type="text/html">  
-            <div class="col s12 m7 marginleftzero">
-                    <div class="card">
-                        <div class="card-stacked">
-                            <div class="card-content">
-                                <p>{{message}}</p>
-                            </div>
-                            <div class="card-action">
-                                <a href="#">{{userName}}</a> - {{createdAt}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        </script>
-        <script id="sMessageTemplateLocation" type="text/html">  
-            <div class="col s12 m7">
-                    <div class="card">
-                        <div class="card-stacked">
-                            <div class="card-content">
-                                <a href="{{url}}" target="_blank">Location</a></p>
-                            </div>
-                            <div class="card-action">
-                                <a href="#">{{userName}}</a> - {{createdAt}}
-                            </div>
-                        </div>
-                    </div>
-                </div>  
-            <div>
-        </script>
-        <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
-        <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.6.0/qs.min.js"></script>
         <script
             src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-        <script src="/socket.io/socket.io.js"></script>
-        <script src="js/chat.js"></script>
     </body>
 </html>
