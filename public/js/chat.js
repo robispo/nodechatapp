@@ -5,14 +5,16 @@ const eleForm = document.getElementById('fChat');
 const eleMessage = document.getElementById('inpMessage');
 const eleSubmit = document.getElementById('btnSubmit');
 const eleSendLocation = document.getElementById('btnShareLocation');
+const eleSideBar = document.getElementById('divSideBar');
+const eleMessageContainer = document.getElementById('divMessageContainer');
 
 //Templates
-const eleMessageContainer = document.getElementById('divMessageContainer');
 const eleMessageTemplate = document.getElementById('sMessageTemplate')
   .innerHTML;
 const eleMessageTemplateLocation = document.getElementById(
   'sMessageTemplateLocation'
 ).innerHTML;
+const eleSideBarContainer = document.getElementById('sSideBar').innerHTML;
 
 //Options
 const { username, room } = Qs.parse(location.search, {
@@ -20,6 +22,23 @@ const { username, room } = Qs.parse(location.search, {
 });
 
 const formatDate = timestamp => moment(timestamp).format('hh:mm a');
+
+const autoscroll = () => {
+  const eleNewMessage = eleMessageContainer.lastElementChild;
+  const newMessageStyles = getComputedStyle(eleNewMessage);
+  const newMessageMargin = parseInt(newMessageStyles.marginBottom);
+  const newMessageHeight = eleNewMessage.offsetHeight + newMessageMargin;
+
+  const vh = eleMessageContainer.offsetHeight;
+
+  const contentHeight = eleMessageContainer.scrollHeight;
+
+  const scrollOffset = eleMessageContainer.scrollTop + vh;
+
+  if (contentHeight - newMessageHeight <= scrollOffset) {
+    eleMessageContainer.scrollTo(0, eleMessageContainer.scrollHeight);
+  }
+};
 
 socket.on('Welcome', greetings => {
   console.log(greetings);
@@ -32,6 +51,7 @@ socket.on('receiveMessage', message => {
     userName: message.userName
   });
   eleMessageContainer.insertAdjacentHTML('beforeend', html);
+  autoscroll();
 });
 
 socket.on('receiveLocation', data => {
@@ -41,6 +61,15 @@ socket.on('receiveLocation', data => {
     userName: data.userName
   });
   eleMessageContainer.insertAdjacentHTML('beforeend', html);
+  autoscroll();
+});
+
+socket.on('roomData', ({ room, users }) => {
+  const html = Mustache.render(eleSideBarContainer, {
+    room,
+    users
+  });
+  eleSideBar.innerHTML = html;
 });
 
 eleForm.addEventListener('submit', e => {
