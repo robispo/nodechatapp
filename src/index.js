@@ -5,6 +5,12 @@ const express = require('express');
 const socketio = require('socket.io');
 const Filter = require('bad-words');
 const { generateMessage, generateLocation } = require('./utils/messages');
+const {
+  addUser,
+  removeUser,
+  getUser,
+  getUsersInRoom
+} = require('./utils/users');
 
 const app = express();
 const server = http.createServer(app);
@@ -27,23 +33,33 @@ app.all('*', (req, res) => {
 });
 
 io.on('connection', socket => {
-  let userName = '';
   console.log('New socket connection!');
 
-  socket.on('join', data => {
-    userName = data.username;
+  socket.on('join', (data, callback) => {
+    const { error, user } = addUser({
+      id: socket.id,
+      username: data.username,
+      room: data.room
+    });
 
-    socket.join(data.room);
+    if (error) {
+      callback(error);
+      return;
+    }
+
+    socket.join(user.room);
     socket.emit(
       'receiveMessage',
-      generateMessage(`${userName} Welcome!`, userName)
+      generateMessage(`${user.username} Welcome!`, 'Admin')
     );
     socket.broadcast
-      .to(data.room)
+      .to(user.room)
       .emit(
         'receiveMessage',
-        generateMessage(`${userName} has joined!`, userName)
+        generateMessage(`${user.username} has joined!`, 'Admin')
       );
+
+    callback();
   });
 
   socket.on('sendMessage', (message, callback) => {
@@ -51,27 +67,45 @@ io.on('connection', socket => {
       callback('Profanity is not allowed!');
       return;
     }
-    io.emit('receiveMessage', generateMessage(message));
+    const user = getUser(socket.id);
+
+    if (!user) {
+      callback('User not found!');
+      return;
+    }
+
+    io.to(user.room).emit(
+      'receiveMessage',
+      generateMessage(message, user.username)
+    );
     callback();
   });
 
   socket.on('shareLocation', (data, callback) => {
-    io.emit('receiveLocation', generateLocation(data.latitude, data.longitude));
+    const user = getUser(socket.id);
+
+    if (!user) {
+      callback('User not found!');
+      return;
+    }
+
+    io.to(user.room).emit(
+      'receiveLocation',
+      generateLocation(data.latitude, data.longitude, user.username)
+    );
     callback();
   });
 
   socket.on('disconnect', () => {
-    io.emit(
-      'receiveMessage',
-      generateMessage(`${userName} has left!`, userName)
-    );
-  });
+    const user = removeUser(socket.id);
 
-  //   socket.on('countPlus', plus => {
-  //     count = count + plus;
-  //     // socket.emit('countUpdated', count);
-  //     io.emit('countUpdated', count);
-  //   });
+    if (user) {
+      io.to(user.room).emit(
+        'receiveMessage',
+        generateMessage(`${user.username} has left!`, 'Admin')
+      );
+    }
+  });
 });
 
 module.exports = server;

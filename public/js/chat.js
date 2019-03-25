@@ -78,13 +78,21 @@ eleSendLocation.addEventListener('click', e => {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
       },
-      () => {
+      e => {
         eleSendLocation.disabled = false;
-
+        if (e) {
+          console.log(e);
+          return;
+        }
         console.log('The message was delivered!');
       }
     );
   });
 });
 
-socket.emit('join', { username, room });
+socket.emit('join', { username, room }, e => {
+  if (e) {
+    alert(e);
+    location.href = '/';
+  }
+});
